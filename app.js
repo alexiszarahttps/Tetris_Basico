@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let score = 0;
 	const colors = ['orange', 'red', 'purple', 'green', 'blue'];
 
-	//The Tetrominoes
+	// Tetrominios
 	const lTetromino = [
 		[1, width + 1, width * 2 + 1, 2],
 		[width, width + 1, width + 2, width * 2 + 2],
@@ -58,11 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	console.log(theTetrominoes[0][0]);
 
-	//randomly select a Tetromino and its first rotation
+	// Seleccionar al azar un Tetromino y su primera rotación
 	let random = Math.floor(Math.random() * theTetrominoes.length);
 	let current = theTetrominoes[random][currentRotation];
 
-	//draw the Tetromino
+	// Dibujar el Tetrominio
 	function draw() {
 		current.forEach(index => {
 			squares[currentPosition + index].classList.add('tetromino');
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	//undraw the Tetromino
+	// Desenvolver el Tetromino
 	function undraw() {
 		current.forEach(index => {
 			squares[currentPosition + index].classList.remove('tetromino');
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	//assign functions to keyCodes
+	// Asignar funciones a keyCodes
 	function control(e) {
 		if (e.keyCode === 37) {
 			moveLeft();
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	document.addEventListener('keyup', control);
 
-	//move down function
+	// Funcion de desplazamiento hacia abajo
 	function moveDown() {
 		undraw();
 		currentPosition += width;
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		freeze();
 	}
 
-	//freeze function
+	// Funcion de congelacion
 	function freeze() {
 		if (
 			current.some(index =>
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			current.forEach(index =>
 				squares[currentPosition + index].classList.add('taken')
 			);
-			//start a new tetromino falling
+			// Iniciar un nuevo Tetrominio cayendo
 			random = nextRandom;
 			nextRandom = Math.floor(Math.random() * theTetrominoes.length);
 			current = theTetrominoes[random][currentRotation];
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	//move the tetromino left, unless is at the edge or there is a blockage
+	// Mueve el Tetromino a la izquierda, a menos que esté en el borde o haya un bloqueo
 	function moveLeft() {
 		undraw();
 		const isAtLeftEdge = current.some(
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		draw();
 	}
 
-	//move the tetromino right, unless is at the edge or there is a blockage
+	// Mover el Tetromino a la derecha, a menos que este en el borde o haya un bloqueo
 	function moveRight() {
 		undraw();
 		const isAtRightEdge = current.some(
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		draw();
 	}
 
-	///FIX ROTATION OF TETROMINOS A THE EDGE
+	///FIJAR LA ROTACIÓN DE LOS TETROMINOS A LA ARISTA
 	function isAtRight() {
 		return current.some(index => (currentPosition + index + 1) % width === 0);
 	}
@@ -166,13 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function checkRotatedPosition(P) {
-		P = P || currentPosition; //get current position.  Then, check if the piece is near the left side.
+		P = P || currentPosition; //Obtener la posición actual.  A continuacion, comproba si la pieza está cerca del lado izquierdo
 		if ((P + 1) % width < 4) {
-			//add 1 because the position index can be 1 less than where the piece is (with how they are indexed).
+			//añadir 1 porque el índice de posición puede ser 1 menos que donde está la pieza (con la forma en que están indexados)
 			if (isAtRight()) {
-				//use actual position to check if it's flipped over to right side
-				currentPosition += 1; //if so, add one to wrap it back around
-				checkRotatedPosition(P); //check again.  Pass position from start, since long block might need to move more.
+				// Utilizar la posición real para comprobar si se ha volcado a la derecha
+				currentPosition += 1; // Si es así, añade uno para envolverlo de nuevo
+				checkRotatedPosition(P); // Comprobar de nuevo.  Pasar la posición desde el principio, ya que el bloque largo podría necesitar moverse más.
 			}
 		} else if (P % width > 5) {
 			if (isAtLeft()) {
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	//rotate the tetromino
+	// Rotar el Tetromino
 	function rotate() {
 		undraw();
 		currentRotation++;
@@ -196,12 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	/////////
 
-	//show up-next tetromino in mini-grid display
+	// Mostrar el siguiente tetrominó en la pantalla de la mini-red
 	const displaySquares = document.querySelectorAll('.mini-grid div');
 	const displayWidth = 4;
 	const displayIndex = 0;
 
-	//the Tetrominos without rotations
+	// Los Tetrominos sin rotaciones
 	const upNextTetrominoes = [
 		[1, displayWidth + 1, displayWidth * 2 + 1, 2], //lTetromino
 		[0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], //zTetromino
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		[1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1] //iTetromino
 	];
 
-	//display the shape in the mini-grid display
+	// Mostrar la forma en la pantalla de la minirred
 	function displayShape() {
 		//remove any trace of a tetromino form the entire grid
 		displaySquares.forEach(square => {
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	//add functionality to the button
+	// Añadir funcionalidad al botón
 	startBtn.addEventListener('click', () => {
 		if (timerId) {
 			clearInterval(timerId);
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	//add score
+	// Añadir puntuación
 	function addScore() {
 		for (let i = 0; i < 199; i += width) {
 			const row = [
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	//game over
+	// Se terminó el juego
 	function gameOver() {
 		if (
 			current.some(index =>
